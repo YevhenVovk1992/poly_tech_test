@@ -1,0 +1,7 @@
+### Authorization by token, part 1. Retrieve and save token.
+POST https://httpbin.org/post
+Content-Type: application/json
+
+{
+  "token": "my-secret-token"
+}
