@@ -1,8 +1,10 @@
-import datetime
 import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
+
+from event_manager.validators import DateValidator
 
 
 # Create your models here.
@@ -35,8 +37,8 @@ class Event(UUIDModel):
     user = models.ForeignKey(User, null=False, related_name='user', on_delete=models.SET('User was delete'))
     event_type = models.ForeignKey(EventType, null=False, related_name='event_type', on_delete=models.CASCADE)
     info = models.JSONField(null=True)
-    timestamp = models.DateTimeField(null=True)
-    created_at = models.DateTimeField(null=False, default=datetime.datetime.now())
+    timestamp = models.DateTimeField(null=True, validators=[DateValidator.timestamp_validator])
+    created_at = models.DateTimeField(null=False, default=timezone.now())
 
     class Meta:
         ordering = ['event_type', 'timestamp']
