@@ -26,8 +26,13 @@ class EventType(models.Model):
     """
     name = models.CharField(max_length=254, null=False)
 
+    def __str__(self):
+        return f'{self.name}'
+
     class Meta:
+        ordering = ('id', )
         verbose_name = 'Type of the event'
+        verbose_name_plural = 'Types of events'
 
 
 class Event(UUIDModel):
@@ -41,7 +46,8 @@ class Event(UUIDModel):
     created_at = models.DateTimeField(null=False, default=timezone.now())
 
     class Meta:
-        ordering = ['event_type', 'timestamp']
+        ordering = ('created_at', )
         verbose_name = 'Event'
+        verbose_name_plural = 'Events'
 
 
