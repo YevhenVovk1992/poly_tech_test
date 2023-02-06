@@ -1,6 +1,6 @@
-from rest_framework import viewsets, mixins, status
+from rest_framework import viewsets, mixins, status, generics
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from event_manager import models, serializer
 
@@ -30,3 +30,8 @@ class EventViewSets(viewsets.GenericViewSet,
         self.perform_create(model_serializer)
         headers = self.get_success_headers(model_serializer.data)
         return Response(model_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
+
+class RegisterUserAPIView(generics.CreateAPIView):
+    permission_classes = (AllowAny, )
+    serializer_class = serializer.RegisterSerializer

@@ -1,13 +1,52 @@
-### Authorization by token, part 1. Retrieve and save token.
+### Authorization by token admin. Retrieve and save token.
 POST http://127.0.0.1:8000/api/v1.0/event/create/
 Content-Type: application/json
+Authorization: Token 838ee6f374fa04bce8dc910217fb18dd4f8e2f7b
 
 {
-  "event_type": "Coffeebrake_2",
+  "event_type": "Coffeebrake",
   "info":
     {
       "all_info": "text"
     },
-  "timestamp": "2023-02-06 13:45:05"
+  "timestamp": "2023-02-06 17:45:05"
 }
 
+
+### Authorization by token user. Retrieve and save token.
+POST http://127.0.0.1:8000/api/v1.0/event/create/
+Content-Type: application/json
+Authorization: Token 2ee9903e2f8e6add221bfa9cec4637ffa792fb3f
+
+{
+  "event_type": "Sleep",
+  "info":
+    {
+      "all_info": "text"
+    },
+  "timestamp": "2023-02-09 17:45:05"
+}
+
+
+### Get user token.
+POST http://127.0.0.1:8000/api-token-auth/
+Content-Type: application/json
+
+{
+  "username": "user",
+  "password": "user12345"
+}
+
+
+### Register a user.
+POST http://127.0.0.1:8000/api/v1.0/register/
+Content-Type: application/json
+
+{
+  "username": "user2",
+  "email": "user2@gmail.com",
+  "password": "user12345",
+  "password2": "user12345",
+  "first_name": "user_name",
+  "last_name": "user_last_name"
+}
