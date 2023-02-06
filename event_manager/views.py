@@ -1,7 +1,6 @@
-import datetime
-
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from event_manager import models, serializer
 
@@ -15,11 +14,11 @@ class EventViewSets(viewsets.GenericViewSet,
     """
     queryset = models.Event.objects.all()
     serializer_class = serializer.EventSerializer
+    permission_classes = (IsAuthenticated, )
 
     def create(self, request, *args, **kwargs):
         data = request.data
-        data.update({'user': '1', })
-
+        data.update({'user': request.user.id, })
         event_type_name = data.get('event_type')
         check_event_type = models.EventType.objects.filter(name=event_type_name).count()
         if not check_event_type:

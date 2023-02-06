@@ -1,8 +1,13 @@
 from django.contrib import admin
+from rest_framework.authtoken.admin import TokenAdmin
+
 from .models import Event, EventType
 
 
 # Register your models here.
+TokenAdmin.raw_id_fields = ['user']
+
+
 class EventAdmin(admin.ModelAdmin):
     list_display = ('pkid', 'id', 'user', 'event_type', 'info', 'timestamp', 'created_at')
     list_filter = ('event_type', 'timestamp')
