@@ -1,12 +1,33 @@
-from django.shortcuts import render
-from rest_framework import viewsets
+import datetime
 
-from event_manager import models
+from rest_framework import viewsets, mixins, status
+from rest_framework.response import Response
+
+from event_manager import models, serializer
 
 
 # Create your views here.
-class EventViewSets(viewsets.ModelViewSet):
+class EventViewSets(viewsets.GenericViewSet,
+                    mixins.CreateModelMixin):
     """
-    This a viewset that takes json and write the event to the database.
+    This is a viewset that takes json and write the event to the database.
+    There is creating the event type if it not in the database.
     """
-    pass
+    queryset = models.Event.objects.all()
+    serializer_class = serializer.EventSerializer
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data.update({'user': '1', })
+
+        event_type_name = data.get('event_type')
+        check_event_type = models.EventType.objects.filter(name=event_type_name).count()
+        if not check_event_type:
+            event_type_serializer = serializer.EventTypeSerializer(data={'name': event_type_name, })
+            event_type_serializer.is_valid(raise_exception=True)
+            event_type_serializer.save()
+        model_serializer = self.get_serializer(data=data)
+        model_serializer.is_valid(raise_exception=True)
+        self.perform_create(model_serializer)
+        headers = self.get_success_headers(model_serializer.data)
+        return Response(model_serializer.data, status=status.HTTP_201_CREATED, headers=headers)
