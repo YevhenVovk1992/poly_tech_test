@@ -1,3 +1,5 @@
+import unittest
+
 from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework.authtoken.models import Token
@@ -7,7 +9,7 @@ from event_manager import views, models
 
 
 # Create your tests here.
-class AddEventTestCase(APITestCase):
+class TestCaseAddEvent(APITestCase):
     class UserMock:
         """
         Mock for the user. Using in access check
@@ -115,7 +117,7 @@ class AddEventTestCase(APITestCase):
         self.assertEqual(response.status_code, 401)
 
 
-class AccountTestCase(APITestCase):
+class TestCaseAccount(APITestCase):
     def test_create_user(self):
         url = reverse('register_user')
         data = {'username': 'Test',
@@ -155,5 +157,5 @@ class AccountTestCase(APITestCase):
         self.assertEqual(response.status_code, 400)
 
 
-class TokenTestCase(APITestCase):
-    pass
+if __name__ == '__main__':
+    unittest.main()
