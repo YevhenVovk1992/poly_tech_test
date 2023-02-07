@@ -13,6 +13,7 @@ class EventViewSets(viewsets.GenericViewSet,
     There is creating the event type if it not in the database.
     """
     queryset = models.Event.objects.all()
+    lookup_field = 'id'
     serializer_class = serializer.EventSerializer
     permission_classes = (IsAuthenticated, )
 
