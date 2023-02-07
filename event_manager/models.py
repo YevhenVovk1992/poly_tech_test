@@ -42,7 +42,7 @@ class Event(UUIDModel):
     user = models.ForeignKey(User, null=False, related_name='user', on_delete=models.SET('User was delete'))
     event_type = models.ForeignKey(EventType, null=False, related_name='event_type', on_delete=models.CASCADE)
     info = models.JSONField(null=True)
-    timestamp = models.DateTimeField(null=True, validators=[DateValidator.timestamp_validator])
+    timestamp = models.DateTimeField(null=False, validators=[DateValidator.timestamp_validator])
     created_at = models.DateTimeField(null=False, default=timezone.now())
 
     class Meta:
